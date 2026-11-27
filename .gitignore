@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+/.venv/
+/.ruff_cache/
+/output/
+*.tex
+
+/Assignment_*/
+/MATH_F432_Handouts.pdf
+/handoff.md
+/figures
+
