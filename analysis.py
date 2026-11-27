@@ -1,3 +1,4 @@
+import argparse
 import csv
 import hashlib
 import itertools
@@ -617,7 +618,7 @@ def classify(data, outcomes, train, test, intervals):
     return result, curves
 
 
-def main():
+def main(*, results_only=False):
     data, outcomes, audit = load_data()
     profiles = describe(data, outcomes)
     grade_tests = compare_grades(data, outcomes)
@@ -672,6 +673,10 @@ def main():
     (ROOT / "results.json").write_text(
         json.dumps(result, indent=2, allow_nan=False) + "\n"
     )
+    if results_only:
+        print(f"Analyzed {audit['records']:,} records. Wrote results.json.")
+        return
+
     draw_figures(
         ROOT / "figures",
         result,
@@ -685,4 +690,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--results-only", action="store_true", help="Write results.json without plots."
+    )
+    main(results_only=parser.parse_args().results_only)
